@@ -18,7 +18,7 @@ namespace UndergroundRevolution.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rock Hider");
-            Main.npcFrameCount[NPC.type] = Main.npcFrameCount[3];
+            Main.npcFrameCount[NPC.type] = 3;
         }
 
         public override void SetDefaults()
@@ -32,8 +32,6 @@ namespace UndergroundRevolution.NPCs
             NPC.aiStyle = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            AIType = NPCID.Zombie;
-            AnimationType = NPCID.Zombie;
         }
 
         public override void AI()
@@ -51,6 +49,7 @@ namespace UndergroundRevolution.NPCs
             if (Math.Abs(targetPostion.X) - NPC.position.X <= 150 && Math.Abs(targetPostion.X) - NPC.position.X >= -150)
             {
                 NPC.velocity.X = 0f;
+                NPC.defense = 5000;
             }
             if (Math.Abs(targetPostion.X) - NPC.position.X >= 400 || Math.Abs(targetPostion.X) - NPC.position.X <= -400)
             {
@@ -58,7 +57,7 @@ namespace UndergroundRevolution.NPCs
                 NPC.ai[1]++;
                 if (NPC.ai[1] >= 90)
                 {
-                    if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient)
+                    if (NPC.HasValidTarget && Main.netMode != NetmodeID.MultiplayerClient && Main.player[NPC.target].Distance(NPC.Center) < 800f)
                     {
                         var source = NPC.GetSource_FromAI();
                         Vector2 position = NPC.Center;
@@ -82,10 +81,10 @@ namespace UndergroundRevolution.NPCs
                    //
                 //}
             }
-            if (NPC.velocity.Y == 0)
-            {
-                NPC.velocity.Y -= 2f;
-            }
+            //if (NPC.velocity.Y == 0)
+            //{
+            //    NPC.velocity.Y -= 2f;
+            //}
         }
 
         
